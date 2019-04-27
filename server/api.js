@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 
 // import TodoController from './controllers/TodoController';
-const UserController = require('./controllers/UserController');
+import UserController from './controllers/UserController';
 // import passwordConfirmation from './middlewares/passwordConfirmation';
 
 const router = express.Router();
@@ -18,4 +18,4 @@ router.get('/', UserController.index);
 // router.put('/todo/:id', TodoController.put);
 // router.delete('/todo/:id', TodoController.destroy);
 
-module.exports = router;
+export default router;

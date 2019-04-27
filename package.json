@@ -6,13 +6,15 @@
     "author": "Nikitagizatulin",
     "license": "ISC",
     "scripts": {
-        "dev": "nodemon server/app.js",
+        "dev": "nodemon -r esm server/app.js",
         "build": "next build",
-        "start": "NODE_ENV=production nodemon server/app.js",
+        "start": "NODE_ENV=production nodemon -r esm server/app.js",
         "lint": "./node_modules/.bin/eslint \"**/*.js\"",
         "seed": "node ./seed"
     },
     "dependencies": {
+        "@zeit/next-css": "^1.0.1",
+        "antd": "^3.16.6",
         "bcrypt-nodejs": "^0.0.3",
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
@@ -25,6 +27,7 @@
         "eslint-plugin-promise": "^4.0.1",
         "eslint-plugin-react": "^7.12.4",
         "eslint-plugin-standard": "^4.0.0",
+        "esm": "^3.2.20",
         "express": "^4.16.4",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.4.19",
@@ -35,9 +38,21 @@
         "nodemon": "^1.18.10",
         "passport": "^0.4.0",
         "passport-jwt": "^4.0.0",
+        "prop-types": "^15.7.2",
         "react": "^16.8.4",
         "react-dom": "^16.8.4",
+        "redux": "^4.0.1",
+        "redux-devtools-extension": "^2.13.8",
+        "redux-saga": "^1.0.2",
+        "redux-saga-requests": "^0.23.1",
+        "redux-saga-requests-axios": "^0.7.6",
+        "redux-saga-thunk": "^0.7.3",
+        "redux-thunk": "^2.3.0",
+        "serve-favicon": "^2.5.0",
         "source-map-support": "^0.5.11",
         "styled-components": "^4.1.3"
+    },
+    "devDependencies": {
+        "babel-plugin-styled-components": "^1.10.0"
     }
 }

@@ -1,9 +1,22 @@
+import Head from 'next/head';
 import React from 'react';
+import Styles from '../pages_styles/home';
+import Navbar from '../components/Navbar';
 
-export default class About extends React.Component {
+class About extends React.Component {
+
   render() {
     return (
-      <h1>About page</h1>
+      <Styles>
+        <Head>
+          <title>Next project: About page</title>
+        </Head>
+        <Navbar />
+        <h1>This test project for Rezet company.</h1>
+        <img src="/static/example.jpeg" alt="example" />
+      </Styles>
     );
   }
 }
+
+export default About;
