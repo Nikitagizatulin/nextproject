@@ -8,6 +8,7 @@ import 'source-map-support/register';
 import apiRouter from './api';
 import favicon from 'serve-favicon';
 import path from 'path';
+import compression from 'compression';
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -27,6 +28,7 @@ app
     const server = express();
     server.use(logger('dev'));
     server.use(cors());
+    server.use(compression());
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(favicon(path.join(__dirname, '../static', 'favicon.ico')));

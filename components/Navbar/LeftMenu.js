@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
-import { Menu } from 'antd';
+import { Menu, Icon } from 'antd';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-
 class LeftMenu extends Component {
   static propTypes = {
-    changeActiveLink: PropTypes.func,
     selectedKeys: PropTypes.array,
   };
 
   static defaultProps = {
-    changeActiveLink() {},
     selectedKeys: [],
   };
 
   render() {
-    const { changeActiveLink, selectedKeys } = this.props;
+    const { selectedKeys } = this.props;
     return (
-      <Menu mode="horizontal" selectedKeys={selectedKeys} onClick={changeActiveLink}>
+      <Menu mode="horizontal" selectedKeys={selectedKeys}>
         <Menu.Item key="home">
           <Link href="/">
-            <a>Home</a>
+            <a>
+              <Icon type="home" />
+              Home
+            </a>
           </Link>
         </Menu.Item>
         <Menu.Item key="about">
           <Link href="/about">
-            <a>About project</a>
+            <a>
+              <Icon type="read" />
+              About project
+            </a>
           </Link>
         </Menu.Item>
       </Menu>

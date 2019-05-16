@@ -23,6 +23,8 @@ class MyDocument extends Document {
         <Head>
           <link rel="favicon" type="image/x-icon" href="/static/favicon.ico" />
           <meta name="viewport" content="initial-scale=1.2, width=device-width" />
+          <link href="https://fonts.googleapis.com/css?family=Quando" rel="stylesheet"/>
+          <link href="/static/css/nprogress.css" rel="stylesheet"/>
           {this.props.styleTags}
         </Head>
         <body>

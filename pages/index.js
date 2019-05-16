@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import React from 'react';
+import { Typography, Divider } from 'antd';
 import Styles from '../pages_styles/home';
-import Navbar from '../components/Navbar';
+import Navbar from 'components/Navbar';
 
+const { Title } = Typography;
 class Index extends React.Component {
- 
   render() {
     return (
       <Styles>
@@ -12,8 +13,12 @@ class Index extends React.Component {
           <title>Next project: Homepage</title>
         </Head>
         <Navbar />
-        <h1>Hello world from next.js</h1>
-        <img src="/static/example.jpeg" alt="example" />
+        <Title className="home-page_title">Too project.</Title>
+        <Divider />
+        <Title level={2} className="home-page_subtitle">
+          It's simple way to stored your tasks. You can edit your task, delete and set to completed status.
+          For started to use the application, please log in or sign up.
+        </Title>
       </Styles>
     );
   }

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Styled = styled.div`
+  font-family: 'Quando', serif;
   .menuBar {
     padding: 0 20px;
     border-bottom: solid 1px #e8e8e8;
@@ -8,7 +9,7 @@ const Styled = styled.div`
     box-shadow: 0 0 30px #f3f1f1;
   }
   .logo {
-    width: 155px;
+    width: 200px;
     float: left;
   }
   .logo a {
@@ -18,7 +19,7 @@ const Styled = styled.div`
     text-transform: capitalize;
   }
   .menuCon {
-    width: calc(100% - 155px);
+    width: calc(100% - 200px);
     float: left;
   }
   .menuCon .ant-menu-item {

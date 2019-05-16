@@ -13,7 +13,6 @@ class About extends React.Component {
         </Head>
         <Navbar />
         <h1>This test project for Rezet company.</h1>
-        <img src="/static/example.jpeg" alt="example" />
       </Styles>
     );
   }

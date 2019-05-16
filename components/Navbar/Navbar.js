@@ -4,6 +4,13 @@ import RightMenu from './RightMenu';
 import { Drawer, Button } from 'antd';
 import Styled from './styles';
 import Link from 'next/link';
+import { withRouter } from 'next/router';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+
+Router.onRouteChangeStart = () => NProgress.start();
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 class Navbar extends Component {
   state = {
@@ -23,11 +30,23 @@ class Navbar extends Component {
     });
   };
 
-  changeActiveLink = e => {
-    this.setState({
-      current: e.key,
-    });
-  };
+  static getDerivedStateFromProps(props, state) {
+    let active_link;
+    switch (props.router.pathname) {
+      case '/about':
+        active_link = 'about';
+        break;
+      case '/':
+        active_link = 'home';
+        break;
+      default:
+        active_link = '';
+    }
+    return {
+      ...state,
+      current: active_link,
+    };
+  }
 
   render() {
     return (
@@ -40,7 +59,7 @@ class Navbar extends Component {
           </div>
           <div className="menuCon">
             <div className="leftMenu">
-              <LeftMenu changeActiveLink={this.changeActiveLink} selectedKeys={[this.state.current]} />
+              <LeftMenu selectedKeys={[this.state.current]} />
             </div>
             <div className="rightMenu">
               <RightMenu />
@@ -64,10 +83,4 @@ class Navbar extends Component {
     );
   }
 }
-export default Navbar;
-/* <Link href="about">
-            <a title="About Next JS">About Next JS</a>
-          </Link>
-          <Link href="/">
-            <a title="Our API">API</a>
-          </Link> */
+export default withRouter(Navbar);
