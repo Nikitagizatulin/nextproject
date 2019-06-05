@@ -5,10 +5,13 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import 'dotenv/config';
 import 'source-map-support/register';
-import apiRouter from './api';
 import favicon from 'serve-favicon';
 import path from 'path';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import './passport';
+import apiRouter from './api';
+import { mongoose } from './models';
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -22,10 +25,13 @@ const app = next({ dev });
 
 const handle = app.getRequestHandler();
 
-app
-  .prepare()
-  .then(() => {
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', async () => {
+  try {
+    await app.prepare();
     const server = express();
+    server.use(cookieParser());
     server.use(logger('dev'));
     server.use(cors());
     server.use(compression());
@@ -39,8 +45,7 @@ app
       if (err) throw err;
       console.log(`> Ready on http://localhost:${PORT}`);
     });
-  })
-  .catch((ex) => {
-    console.error(`Server do not started because: ${ex}`);
-    process.exit(1);
-  });
+  } catch (err) {
+    console.error(`Server do not started because: ${err}`);
+  }
+});

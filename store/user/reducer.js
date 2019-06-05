@@ -16,8 +16,6 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case success(LOGIN_USER):
-      localStorage.setItem('user', JSON.stringify(action.payload.data.user));
-      localStorage.setItem('userToken', JSON.stringify(action.payload.data.userToken));
       return {
         ...state,
         ...action.payload.data,
@@ -38,8 +36,6 @@ export default (state = initialState, action) => {
         loading: true,
       };
     case success(REGISTER_USER):
-      localStorage.setItem('user', JSON.stringify(action.payload.data.user));
-      localStorage.setItem('userToken', JSON.stringify(action.payload.data.userToken));
       return {
         ...state,
         ...action.payload.data,
@@ -55,8 +51,6 @@ export default (state = initialState, action) => {
         },
       };
     case LOGOUT_USER:
-      localStorage.removeItem('user');
-      localStorage.removeItem('userToken');
       return {
         userToken: null,
         user: null,

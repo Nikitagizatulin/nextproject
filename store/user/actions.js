@@ -4,7 +4,7 @@ export const loginUser = data => ({
   payload: {
     request: {
       method: 'POST',
-      url: '/login',
+      url: 'api/login',
       data,
     },
   },
@@ -16,7 +16,7 @@ export const registerUser = data => ({
   payload: {
     request: {
       method: 'POST',
-      url: '/register',
+      url: 'api/register',
       data,
     },
   },
