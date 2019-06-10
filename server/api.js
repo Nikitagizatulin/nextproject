@@ -7,9 +7,9 @@ import userAthenticated from './middlewares/userAthenticated';
 
 const router = express.Router();
 
-router.get('/', UserController.index);
 router.post('/register', passwordConfirmation, UserController.register);
 router.post('/login', UserController.login);
+router.post('/logout', UserController.logout);
 
 router.post('/forgot', UserController.forgot);
 

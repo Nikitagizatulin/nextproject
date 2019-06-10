@@ -6,11 +6,6 @@ import Styles from '../pages_styles/home';
 
 const { Title } = Typography;
 class Index extends React.Component {
-  static async getInitialProps(ctx) {
-    // console.log(ctx.req.cookies.jwt);
-    return {};
-  }
-
   render() {
     return (
       <Styles>

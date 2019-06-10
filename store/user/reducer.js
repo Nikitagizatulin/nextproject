@@ -1,8 +1,11 @@
 import { success, error } from 'redux-saga-requests';
-import { LOGIN_USER, LOGOUT_USER, REGISTER_USER } from './actions';
+import { removeCookie } from 'utils/Cookies';
+import {
+  LOGIN_USER, LOGOUT_USER, REGISTER_USER, SET_USER_FROM_COOKIE,
+} from './actions';
 
 const initialState = {
-  userToken: null,
+  isAuthnticated: false,
   user: null,
   loading: false,
   error: {},
@@ -19,6 +22,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.payload.data,
+        isAuthnticated: true,
         loading: false,
         error: {},
       };
@@ -26,6 +30,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        isAuthnticated: false,
         error: {
           ...action.payload.response.data,
         },
@@ -39,23 +44,32 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.payload.data,
+        isAuthnticated: true,
         loading: false,
         error: {},
       };
     case error(REGISTER_USER):
       return {
         ...state,
+        isAuthnticated: false,
         loading: false,
         error: {
           ...action.payload.response.data,
         },
       };
     case LOGOUT_USER:
+      removeCookie('jwt');
       return {
-        userToken: null,
+        isAuthnticated: false,
         user: null,
         loading: false,
         error: {},
+      };
+    case SET_USER_FROM_COOKIE:
+      return {
+        ...state,
+        ...action.payload,
+        loading: false,
       };
     default:
       return state;

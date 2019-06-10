@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import React from 'react';
+import Navbar from 'components/Navbar';
+import WithAuth from 'components/common_components/WithAuth';
+
 import Styles from '../pages_styles/home';
-import Navbar from '../components/Navbar';
 
 class About extends React.Component {
-
   render() {
     return (
       <Styles>
@@ -18,4 +19,4 @@ class About extends React.Component {
   }
 }
 
-export default About;
+export default WithAuth(About);

@@ -3,7 +3,6 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { User } from '../models';
 
-
 function jwtSignUser(user) {
   const ONE_WEEK = 60 * 60 * 24 * 7;
   return jwt.sign(user, process.env.JWT_SECRET, {
@@ -12,10 +11,6 @@ function jwtSignUser(user) {
 }
 
 export default {
-  async index(req, res) {
-    res.json({ data: 'here is data from back' });
-  },
-
   async register(req, res) {
     res.status(200);
     try {
@@ -54,6 +49,13 @@ export default {
     } catch (e) {
       res.status(500).json({ server: { message: 'An error has occured trying to log in' } });
     }
+  },
+
+  async logout(req, res) {
+    req.logout();
+    res.clearCookie('jwt');
+    
+    res.status(200).json({ server: { message: 'success' } });
   },
 
   async forgot(req, res) {

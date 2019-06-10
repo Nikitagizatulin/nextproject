@@ -10,6 +10,7 @@ module.exports = withCSS({
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       components: path.resolve(__dirname, 'components'),
       store: path.resolve(__dirname, 'store'),
+      utils: path.resolve(__dirname, 'utils'),
     });
     return config;
   },
