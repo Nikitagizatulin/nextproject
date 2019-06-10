@@ -36,6 +36,12 @@ class Navbar extends Component {
       case '/about':
         active_link = 'about';
         break;
+      case '/todo':
+        active_link = 'todo';
+        break;
+      case '/profile':
+        active_link = 'profile';
+        break;
       case '/':
         active_link = 'home';
         break;

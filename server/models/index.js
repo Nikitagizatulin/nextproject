@@ -2,11 +2,11 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 const database = process.env.DB_NAME || 'todo';
-const auth_source = process.env.DB_AUTH_SOURCE;
+const authSource = process.env.DB_AUTH_SOURCE;
 let uri = `mongodb://localhost/${database}`;
 
-if (auth_source) {
-  uri += `?authSource=${auth_source}`;
+if (authSource) {
+  uri += `?authSource=${authSource}`;
 }
 
 mongoose.connect(uri, {

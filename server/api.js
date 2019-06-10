@@ -13,10 +13,10 @@ router.post('/logout', UserController.logout);
 
 router.post('/forgot', UserController.forgot);
 
-router.get('/todos', TodoController.index);
-router.post('/todo', TodoController.store);
-router.get('/todo/:id', TodoController.show);
-router.put('/todo/:id', TodoController.put);
-router.delete('/todo/:id', TodoController.destroy);
+router.get('/todos', userAthenticated, TodoController.index);
+router.post('/todo', userAthenticated, TodoController.store);
+router.get('/todo/:id', userAthenticated, TodoController.show);
+router.put('/todo/:id', userAthenticated, TodoController.put);
+router.delete('/todo/:id', userAthenticated, TodoController.destroy);
 
 export default router;
