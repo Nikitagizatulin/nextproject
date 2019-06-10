@@ -24,6 +24,7 @@ export default {
         user: userData,
       });
     } catch (e) {
+      console.log(e);
       res.status(400).json(e.errors);
     }
   },

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input, Tooltip, Icon, DatePicker, Row, Col, Button } from 'antd';
+import { Modal, Form, Input, Tooltip, Icon, DatePicker, Row, Col, Button, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from 'store/user/actions';
@@ -25,8 +25,8 @@ class RegisterComponent extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.props.registerUser(values);
+        this.props.closeModal();
       }
     });
   };
@@ -68,7 +68,11 @@ class RegisterComponent extends Component {
     };
 
     const date_config = {
-      rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+      rules: [{ type: 'object', required: true, message: 'Please select date of birth' }],
+    };
+
+    const gender_config = {
+      rules: [{ required: true, message: 'Please select your gender!' }],
     };
 
     const email_config = {
@@ -110,6 +114,9 @@ class RegisterComponent extends Component {
     const nick_config = {
       rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
     };
+
+    const { Option } = Select;
+
     return (
       <Modal title="Register Modal" visible={visible} onCancel={closeModal} footer={null}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -117,7 +124,15 @@ class RegisterComponent extends Component {
             {getFieldDecorator('email', email_config)(<Input />)}
           </Form.Item>
           <Form.Item label="DatePicker">
-            {getFieldDecorator('date-picker', date_config)(<DatePicker />)}
+            {getFieldDecorator('age', date_config)(<DatePicker format="YYYY-MM-DD"/>)}
+          </Form.Item>
+          <Form.Item label="Gender">
+            {getFieldDecorator('gender', gender_config)(
+              <Select placeholder="Select a option and change input text above">
+                <Option value="male">male</Option>
+                <Option value="female">female</Option>
+              </Select>,
+            )}
           </Form.Item>
           <Form.Item label="Password" hasFeedback>
             {getFieldDecorator('password', password_config)(<Input.Password />)}
@@ -156,4 +171,7 @@ class RegisterComponent extends Component {
 }
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps, { registerUser })(Form.create({ name: 'register' })(RegisterComponent));
+export default connect(
+  mapStateToProps,
+  { registerUser },
+)(Form.create({ name: 'register' })(RegisterComponent));

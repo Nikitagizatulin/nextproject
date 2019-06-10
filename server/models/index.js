@@ -1,19 +1,27 @@
-const fs = require('fs')
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/todo', {
-  useCreateIndex: true,
-  useNewUrlParser: true
-})
-const dbs = {
-  mongoose
+const fs = require('fs');
+const mongoose = require('mongoose');
+
+const database = process.env.DB_NAME || 'todo';
+const auth_source = process.env.DB_AUTH_SOURCE;
+let uri = `mongodb://localhost/${database}`;
+
+if (auth_source) {
+  uri += `?authSource=${auth_source}`;
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => file !== 'index.js')
-  .forEach(file => {
-    let modelName = file.replace('.js', '')
-    dbs[modelName] = mongoose.model(modelName, require(`./${file}`)(mongoose))
-  })
+mongoose.connect(uri, {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+});
+const dbs = {
+  mongoose,
+};
 
-module.exports = dbs
+fs.readdirSync(__dirname)
+  .filter(file => file !== 'index.js')
+  .forEach((file) => {
+    const modelName = file.replace('.js', '');
+    dbs[modelName] = mongoose.model(modelName, require(`./${file}`)(mongoose));
+  });
+
+module.exports = dbs;

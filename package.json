@@ -9,8 +9,7 @@
         "dev": "nodemon -r esm server/app.js",
         "build": "next build",
         "start": "NODE_ENV=production nodemon -r esm server/app.js",
-        "lint": "./node_modules/.bin/eslint \"**/*.js\"",
-        "seed": "node ./seed"
+        "lint": "./node_modules/.bin/eslint \"**/*.js\""
     },
     "dependencies": {
         "@zeit/next-css": "^1.0.1",

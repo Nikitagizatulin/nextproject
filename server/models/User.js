@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt-nodejs');
 const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
-module.exports = (mongoose) => {
+module.exports = mongoose => {
   const UserSchema = new mongoose.Schema({
-    username: {
+    nickname: {
       type: String,
       required: 'Field "user name" is required!',
       trim: true,
@@ -21,24 +21,10 @@ module.exports = (mongoose) => {
     },
     age: {
       trim: true,
-      min: [5, 'Maximum "age" field value is 5'],
-      max: [100, 'Maximum "age" field value is 100'],
-      type: Number,
+      min: [new Date('1900-01-01'), 'You did not specify a valid date of birth.'],
+      max: [Date.now, 'You did not specify a valid date of birth.'],
+      type: Date,
       required: 'Field "age" is required!',
-    },
-    city: {
-      trim: true,
-      type: String,
-      minlength: [3, 'Minimum "City" field length is 3 characters '],
-      required: 'Field "City" is required!',
-      maxlength: [189, 'Maximum "City" field length is 189 characters'],
-    },
-    country: {
-      trim: true,
-      type: String,
-      required: 'Field "Country" is required!',
-      minlength: [3, 'Minimum "Country" field length is 3 characters '],
-      maxlength: [90, 'Maximum "Country" field length is 90 characters '],
     },
     email: {
       type: String,
@@ -69,7 +55,7 @@ module.exports = (mongoose) => {
       default: Date.now,
     },
   });
-  
+
   UserSchema.plugin(beautifyUnique);
   UserSchema.pre('save', function (next) {
     const user = this;
