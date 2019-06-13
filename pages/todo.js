@@ -1,30 +1,18 @@
 import Head from 'next/head';
 import React from 'react';
 import Navbar from 'components/Navbar';
-import { List, Icon } from 'antd';
 import WithAuth from 'components/common_components/WithAuth';
-import { connect } from 'react-redux';
-
+import TodoComponent from 'components/TodoComponent';
 import Styles from '../pages_styles/home';
 
-class Todo extends React.Component {
-  render() {
-    return (
-      <Styles>
+const Todo = () => (
+    <Styles>
         <Head>
-          <title>Todo list</title>
+            <title>Todo list</title>
         </Head>
         <Navbar />
-        <List.Item actions={[<Icon type="delete" key ="1" theme="outlined" />]}>
-          <List.Item.Meta title="Title" />
-        </List.Item>
-      </Styles>
-    );
-  }
-}
+        <TodoComponent />
+    </Styles>
+);
 
-const mapStateToProps = state => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps)(WithAuth(Todo));
+export default WithAuth(Todo);

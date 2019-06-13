@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormItem, Input, Button } from 'antd';
+import { Form, Input, Button, Icon } from 'antd';
 
-export default class AddsForm extends Component {
+export default class AddTodoForm extends Component {
     static propTypes = {
         form: PropTypes.object
     };
@@ -18,7 +18,7 @@ export default class AddsForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-              console.log(values);
+                console.log(values);
                 // context.state.handleToDoAdd(values);
                 // message.success('ToDo added');
                 this.setState({ message: '' });
@@ -54,8 +54,8 @@ export default class AddsForm extends Component {
         };
 
         return (
-            <Form onSubmit={this.sumbutHandler}>
-                <FormItem {...formItemLayout} label="ToDo">
+            <Form onSubmit={this.sumbutHandler} layout="inline">
+                <Form.Item {...formItemLayout} label="ToDo">
                     {getFieldDecorator('ToDo', {
                         rules: [
                             {
@@ -64,13 +64,19 @@ export default class AddsForm extends Component {
                             }
                         ],
                         initialValue: this.state.message
-                    })(<Input placeholder="Add a new todo" />)}
-                </FormItem>
-                <FormItem {...tailFormItemLayout}>
+                    })(
+                        <Input
+                            prefix={<Icon type="tags" />}
+                             placeholder="What need to be done?"
+                        />
+                    )}
+                </Form.Item>
+                <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
+                        <Icon type="plus-circle" />
                         Add
                     </Button>
-                </FormItem>
+                </Form.Item>
             </Form>
         );
     }
