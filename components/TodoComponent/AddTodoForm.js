@@ -1,83 +1,80 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Button, Icon } from 'antd';
+import { Form, Icon, Row, Col, Button, Input } from 'antd';
+import styled from 'styled-components';
 
-export default class AddTodoForm extends Component {
-    static propTypes = {
-        form: PropTypes.object
-    };
-    static defaultProps = {
-        form: {}
-    };
+const Styles = styled.div`
+    .todo-form {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 5px;
+        .icon {
+            color: rgba(0,0,0,.25);
+        }
+    }
+`;
 
-    state = {
-        message: ''
-    };
+const AddTodoForm = ({ form, onFormSubmit }) => {
+    const { getFieldDecorator } = form;
 
-    sumbutHandler = e => {
+    // form submit handler
+    const handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        form.validateFields((err, todo) => {
             if (!err) {
-                console.log(values);
-                // context.state.handleToDoAdd(values);
-                // message.success('ToDo added');
-                this.setState({ message: '' });
-                this.props.form.resetFields();
+                // resetting form fields
+                form.resetFields();
+
+                // submitting our form
+                onFormSubmit(todo.name);
             }
         });
     };
 
-    render() {
-        const { getFieldDecorator } = this.props.form;
-
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 }
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 }
-            }
-        };
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0
-                },
-                sm: {
-                    span: 16,
-                    offset: 8
-                }
-            }
-        };
-
-        return (
-            <Form onSubmit={this.sumbutHandler} layout="inline">
-                <Form.Item {...formItemLayout} label="ToDo">
-                    {getFieldDecorator('ToDo', {
-                        rules: [
-                            {
-                                required: true,
-                                message: 'Please input A Todo'
-                            }
-                        ],
-                        initialValue: this.state.message
-                    })(
-                        <Input
-                            prefix={<Icon type="tags" />}
-                             placeholder="What need to be done?"
-                        />
-                    )}
-                </Form.Item>
-                <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
-                        <Icon type="plus-circle" />
-                        Add
-                    </Button>
-                </Form.Item>
+    return (
+        <Styles>
+            <Form
+                onSubmit={e => handleSubmit(e)}
+                layout="horizontal"
+                className="todo-form"
+            >
+                <Row gutter={20}>
+                    <Col xs={24} sm={24} md={17} lg={19} xl={20}>
+                        <Form.Item>
+                            {getFieldDecorator('name', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message:
+                                            'Please, type in the todo name.'
+                                    }
+                                ]
+                            })(
+                                <Input
+                                    prefix={
+                                        <Icon type="tags" className="icon" />
+                                    }
+                                    placeholder="What needs to be done?"
+                                    spellCheck={false}
+                                />
+                            )}
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={7} lg={5} xl={4}>
+                        <Button type="primary" htmlType="submit" block>
+                            <Icon type="plus-circle" />
+                            Add
+                        </Button>
+                    </Col>
+                </Row>
             </Form>
-        );
-    }
-}
+        </Styles>
+    );
+};
+
+AddTodoForm.propTypes = {
+    form: PropTypes.object.isRequired,
+    onFormSubmit: PropTypes.func.isRequired
+};
+
+export default Form.create({ name: 'AddTodoForm' })(AddTodoForm);
