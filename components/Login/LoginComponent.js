@@ -7,14 +7,12 @@ import { loginUser } from 'store/user/actions';
 class Login extends Component {
   static propTypes = {
     visible: PropTypes.bool,
-    closeModal: PropTypes.func,
-    loginUser: PropTypes.func,
+    closeModal: PropTypes.func.isRequired,
+    loginUser: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    visible: false,
-    closeModal: () => {},
-    loginUser: () => {},
+    visible: false
   };
 
   handleSubmit = e => {
