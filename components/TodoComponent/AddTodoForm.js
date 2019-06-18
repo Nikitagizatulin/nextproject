@@ -9,8 +9,11 @@ const Styles = styled.div`
         margin-bottom: 20px;
         padding: 5px;
         .icon {
-            color: rgba(0,0,0,.25);
+            color: rgba(0, 0, 0, 0.25);
         }
+    }
+    button.ant-btn {
+        margin-top: 4px;
     }
 `;
 

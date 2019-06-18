@@ -15,7 +15,7 @@ export default AuthComponent => {
       error: {},
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       if (!this.props.isAuthnticated) {
         logoutUser();
         this.setState({
