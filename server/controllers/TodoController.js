@@ -6,8 +6,8 @@ export default {
     },
 
     async show(req, res) {
-        let queryResult = await Todo.findById(req.params.id);
-        res.send(JSON.stringify(queryResult));
+        // let queryResult = await Todo.find({user_id: req.params.id});
+        res.send(JSON.stringify({success:'s'}));
     },
 
     async store(req, res) {

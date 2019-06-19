@@ -1,18 +1,12 @@
 export const FETCH_TODOS = 'FETCH_TODOS';
-export const fetchTodos = () => ({
+export const fetchTodos = id => ({
     type: FETCH_TODOS,
     payload: {
         request: {
             method: 'GET',
-            url: '/todos'
+            url: `/todo/${id}`
         }
     }
-});
-
-export const FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE';
-export const fetchTodosFailure = error => ({
-    type: FETCH_TODOS_FAILURE,
-    payload: { error }
 });
 
 export const ADD_TODO = 'ADD_TODO';
@@ -21,8 +15,8 @@ export const addTodo = value => ({
     payload: {
         request: {
             method: 'POST',
-            url: 'api/todo',
-            data: { value } 
+            url: '/todo',
+            data: { value }
         }
     }
 });
