@@ -15,13 +15,33 @@ class Login extends Component {
         visible: false
     };
 
+    state = {
+        error: []
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.loginUser(values);
-                this.props.closeModal();
+                this.props
+                    .loginUser(values)
+                    .then(e => {
+                        this.props.closeModal();
+                    })
+                    .catch(e => {
+                        ({ payload }) => {
+                            const reason = payload.response.data;
+                            const error = [];
+
+                            Object.keys(reason).map(key => {
+                                error.push(reason[key].message);
+                            });
+                            this.setState({
+                                error
+                            });
+                        };
+                    });
             }
         });
     };

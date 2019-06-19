@@ -20,7 +20,9 @@ const makeStore = (initialState) => {
     rootReducer,
     initialState,
     composeWithDevTools(
-      applyMiddleware(requestsPromiseMiddleware(), thunk, logger, sagaMiddleware),
+      applyMiddleware(requestsPromiseMiddleware({
+        auto: true
+      }), thunk, logger, sagaMiddleware),
     ),
   );
   sagaMiddleware.run(saga);
