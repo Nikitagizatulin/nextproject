@@ -24,7 +24,8 @@ class RegisterComponent extends Component {
     static propTypes = {
         visible: PropTypes.bool,
         closeModal: PropTypes.func,
-        registerUser: PropTypes.func
+        registerUser: PropTypes.func,
+        form: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -39,7 +40,7 @@ class RegisterComponent extends Component {
             if (!err) {
                 this.props
                     .registerUser(values)
-                    .then(e => {
+                    .then(() => {
                         this.props.closeModal();
                     })
                     .catch(({ payload }) => {

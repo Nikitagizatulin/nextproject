@@ -25,8 +25,8 @@ class RightMenu extends Component {
     });
   };
 
-  logut = () => {
-    this.props.logoutUser();
+  logut = async () => {
+    await this.props.logoutUser();
     Router.push('/');
   };
 

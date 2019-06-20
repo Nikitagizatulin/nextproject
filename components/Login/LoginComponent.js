@@ -8,7 +8,8 @@ class Login extends Component {
     static propTypes = {
         visible: PropTypes.bool,
         closeModal: PropTypes.func.isRequired,
-        loginUser: PropTypes.func.isRequired
+        loginUser: PropTypes.func.isRequired,
+        form: PropTypes.object.isRequired
     };
 
     static defaultProps = {
@@ -16,7 +17,7 @@ class Login extends Component {
     };
 
     state = {
-        error: []
+        error: {}
     };
 
     handleSubmit = e => {
@@ -26,21 +27,15 @@ class Login extends Component {
             if (!err) {
                 this.props
                     .loginUser(values)
-                    .then(e => {
+                    .then(() => {
                         this.props.closeModal();
                     })
-                    .catch(e => {
-                        ({ payload }) => {
-                            const reason = payload.response.data;
-                            const error = [];
+                    .catch(({ payload }) => {
+                        const error = payload.response.data;
 
-                            Object.keys(reason).map(key => {
-                                error.push(reason[key].message);
-                            });
-                            this.setState({
-                                error
-                            });
-                        };
+                        this.setState({
+                            error
+                        });
                     });
             }
         });
@@ -49,6 +44,21 @@ class Login extends Component {
     render() {
         const { visible, closeModal } = this.props;
         const { getFieldDecorator } = this.props.form;
+        const { error } = this.state;
+        const errorProps = {
+            email: {},
+            password: {}
+        };
+        const errorKeys = Object.keys(error);
+        if (errorKeys.length != 0) {
+            errorKeys.map(key => {
+                errorProps[key] = {
+                    validateStatus: 'error',
+                    help: error[key].message
+                };
+            });
+        }
+
         const email_config = {
             rules: [
                 {
@@ -82,7 +92,7 @@ class Login extends Component {
                 footer={null}
             >
                 <Form onSubmit={this.handleSubmit} className="login-form">
-                    <Form.Item>
+                    <Form.Item {...errorProps.email} hasFeedback>
                         {getFieldDecorator('email', email_config)(
                             <Input
                                 prefix={
@@ -95,7 +105,7 @@ class Login extends Component {
                             />
                         )}
                     </Form.Item>
-                    <Form.Item>
+                    <Form.Item {...errorProps.password} hasFeedback>
                         {getFieldDecorator('password', password_config)(
                             <Input.Password
                                 prefix={

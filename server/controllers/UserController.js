@@ -66,7 +66,7 @@ export default {
     async logout(req, res) {
         req.logout();
         res.clearCookie('jwt');
-
+        
         res.status(200).json({ server: { message: 'success' } });
     },
 
