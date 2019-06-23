@@ -9,31 +9,34 @@ import makeStore from '../store';
 import { userFromCookie } from '../store/user/actions';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    const user = process.browser
-      ? jsonwebtoken.decode(getCookie('jwt'))
-      : jsonwebtoken.decode(getCookie('jwt', ctx.req));
+    static async getInitialProps({ Component, ctx }) {
+        const user = process.browser
+            ? jsonwebtoken.decode(getCookie('jwt'))
+            : jsonwebtoken.decode(getCookie('jwt', ctx.req));
+        if (user) {
+            ctx.store.dispatch(
+                userFromCookie({ isAuthnticated: !!user, user })
+            );
+        }
 
-    if (user) {
-      ctx.store.dispatch(userFromCookie({ isAuthnticated: !!user, user }));
+        const pageProps = Component.getInitialProps
+            ? await Component.getInitialProps(ctx)
+            : {};
+
+        return { pageProps };
     }
 
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+    render() {
+        const { Component, pageProps, store } = this.props;
 
-    return { pageProps };
-  }
-
-  render() {
-    const { Component, pageProps, store } = this.props;
-
-    return (
-      <Container>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-      </Container>
-    );
-  }
+        return (
+            <Container>
+                <Provider store={store}>
+                    <Component {...pageProps} />
+                </Provider>
+            </Container>
+        );
+    }
 }
 
 export default withRedux(makeStore)(MyApp);

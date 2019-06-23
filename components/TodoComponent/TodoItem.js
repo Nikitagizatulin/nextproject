@@ -12,6 +12,20 @@ const Styles = styled.div`
             color: rgba(0, 0, 0, 0.25);
         }
     }
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .todo-item {
+        .todo-tag {
+            margin-left: 10px;
+        }
+        .todo-name {
+            display: inline-block;
+            text-transform: capitalize;
+        }
+    }
 `;
 
 const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
@@ -22,7 +36,7 @@ const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
                     <Tooltip title="Remove Todo" key="tooltip">
                         <Button
                             type="danger"
-                            onClick={() => onTodoRemoval(todo.id)}
+                            onClick={() => onTodoRemoval(todo._id)}
                         >
                             <Icon type="delete" />
                         </Button>
@@ -40,7 +54,7 @@ const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
                     >
                         <Checkbox
                             defaultChecked={todo.completed}
-                            onChange={() => onTodoToggle(todo.id)}
+                            onChange={() => onTodoToggle(todo._id)}
                         />
                     </Tooltip>
 
@@ -52,7 +66,7 @@ const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
                     </Tag>
 
                     <div className="todo-name">
-                        {todo.completed ? <del>{todo.name}</del> : todo.name}
+                        {todo.completed ? <del>{todo.value}</del> : todo.value}
                     </div>
                 </div>
             </List.Item>

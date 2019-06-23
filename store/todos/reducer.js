@@ -17,27 +17,54 @@ export default (state = { todoList: [] }, action) => {
                 todoList: action.payload.data
             };
         case error(FETCH_TODOS):
-            console.log('error---', action);
             return {
                 ...state,
                 error: action.payload.error,
                 todoList: []
             };
         case ADD_TODO:
+            return state;
+        case success(ADD_TODO):
             return {
                 ...state,
-                todoList: [...state.todoList, action.payload.todo]
+                todoList: [...state.todoList, action.payload.data]
+            };
+        case error(ADD_TODO):
+            return {
+                ...state,
+                error: action.payload.error
             };
         case DELETE_TODO:
+            return state;
+        case success(DELETE_TODO):
             return {
                 ...state,
                 todoList: state.todoList.filter(
-                    todo => todo.id !== action.payload.todo.id
+                    todo => todo._id !== action.payload.data.id
                 )
+            };
+        case error(DELETE_TODO):
+            return {
+                ...state,
+                error: action.payload.error
             };
         case UPDATE_TODO_STATUS:
             return {
                 ...state
+            };
+        case success(UPDATE_TODO_STATUS):
+            return {
+                ...state,
+                todoList: state.todoList.map(todo =>
+                    todo._id === action.payload.data.id
+                        ? { ...todo, completed: !todo.completed }
+                        : todo
+                )
+            };
+        case error(UPDATE_TODO_STATUS):
+            return {
+                ...state,
+                error: action.payload.error
             };
         case UPDATE_TODO_VALUE:
             return {

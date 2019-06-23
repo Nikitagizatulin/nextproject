@@ -28,24 +28,24 @@ const handle = app.getRequestHandler();
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', async () => {
-  try {
-    await app.prepare();
-    const server = express();
-    server.use(cookieParser());
-    server.use(logger('dev'));
-    server.use(cors());
-    server.use(compression());
-    server.use(bodyParser.json());
-    server.use(bodyParser.urlencoded({ extended: true }));
-    server.use(favicon(path.join(__dirname, '../static', 'favicon.ico')));
-    server.use('/api', apiRouter);
-    server.get('*', (req, res) => handle(req, res));
+    try {
+        await app.prepare();
+        const server = express();
+        server.use(cookieParser());
+        server.use(logger('dev'));
+        server.use(cors({ credentials: true, origin: true }));
+        server.use(compression());
+        server.use(bodyParser.json());
+        server.use(bodyParser.urlencoded({ extended: true }));
+        server.use(favicon(path.join(__dirname, '../static', 'favicon.ico')));
+        server.use('/api', apiRouter);
+        server.get('*', (req, res) => handle(req, res));
 
-    server.listen(PORT, (err) => {
-      if (err) throw err;
-      console.log(`> Ready on http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error(`Server do not started because: ${err}`);
-  }
+        server.listen(PORT, err => {
+            if (err) throw err;
+            console.log(`> Ready on http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error(`Server do not started because: ${err}`);
+    }
 });

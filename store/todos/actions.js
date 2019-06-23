@@ -1,10 +1,10 @@
 export const FETCH_TODOS = 'FETCH_TODOS';
-export const fetchTodos = id => ({
+export const fetchTodos = () => ({
     type: FETCH_TODOS,
     payload: {
         request: {
             method: 'GET',
-            url: `/todo/${id}`
+            url: `api/todos`
         }
     }
 });
@@ -15,7 +15,7 @@ export const addTodo = value => ({
     payload: {
         request: {
             method: 'POST',
-            url: '/todo',
+            url: 'api/todo',
             data: { value }
         }
     }
@@ -36,9 +36,7 @@ export const UPDATE_TODO_STATUS = 'UPDATE_TODO_STATUS';
 export const updateTodoStatus = id => ({
     type: UPDATE_TODO_STATUS,
     payload: {
-        todo: {
-            id
-        }
+        request: { method: 'PUT', url: 'api/toggle-status', data: { id } }
     }
 });
 
@@ -46,8 +44,10 @@ export const DELETE_TODO = 'DELETE_TODO';
 export const deleteTodo = id => ({
     type: DELETE_TODO,
     payload: {
-        todo: {
-            id
+        request: {
+            method: 'DELETE',
+            url: 'api/todo',
+            data: { id }
         }
     }
 });

@@ -1,13 +1,14 @@
 import { Todo } from '../models';
 export default {
     async index(req, res) {
-        let queryResult = await Todo.find();
+        const { user } = req;
+        let queryResult = await Todo.find({ user_id: user._id });
         res.json(queryResult);
     },
 
     async show(req, res) {
-        // let queryResult = await Todo.find({user_id: req.params.id});
-        res.send(JSON.stringify({success:'s'}));
+        let queryResult = await Todo.findById(req.params.id);
+        res.send(JSON.stringify(queryResult));
     },
 
     async store(req, res) {
@@ -27,13 +28,23 @@ export default {
                 res.status(500).send({ error: err });
             });
     },
+    async toggle_status(req, res) {
+        const { body, user } = req;
+        const todo = await Todo.findOne({ user_id: user._id, _id: body.id });
+        todo.completed = !todo.completed;
+        const result = await todo.save();
+
+        res.status(200).send({ id: result._id });
+    },
     async destroy(req, res) {
-        Todo.findByIdAndRemove(req.params.id)
-            .then(() => {
-                res.sendStatus(200);
-            })
-            .catch(err => {
-                res.status(500).send({ error: err });
-            });
+        const { body, user } = req;
+        const result = await Todo.deleteOne({
+            _id: body.id,
+            user_id: user._id
+        });
+
+        return result.ok
+            ? res.status(200).send({ id: body.id })
+            : res.status(500).send({ error: 'server error' });
     }
 };

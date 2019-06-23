@@ -21,7 +21,7 @@ export default {
             const userData = await user.save();
 
             res.cookie('jwt', jwtSignUser(userData.toJSON()), {
-                httpOnly: true,
+                httpOnly: false,
                 maxAge: ONE_WEEK * 1000,
                 expires: new Date(Date.now() + ONE_WEEK * 1000)
             });
@@ -52,7 +52,11 @@ export default {
                     .status(400)
                     .json({ password: { message: 'Incorrect password' } });
             }
-            res.cookie('jwt', jwtSignUser(user.toJSON()), { httpOnly: true });
+            res.cookie('jwt', jwtSignUser(user.toJSON()), {
+                httpOnly: false,
+                maxAge: ONE_WEEK * 1000,
+                expires: new Date(Date.now() + ONE_WEEK * 1000)
+            });
             res.json({
                 user: user.toJSON()
             });

@@ -16,7 +16,8 @@ router.post('/forgot', UserController.forgot);
 router.get('/todos', userAthenticated, TodoController.index);
 router.post('/todo', userAthenticated, TodoController.store);
 router.get('/todo/:id', userAthenticated, TodoController.show);
-router.put('/todo/:id', userAthenticated, TodoController.put);
-router.delete('/todo/:id', userAthenticated, TodoController.destroy);
+router.put('/todo', userAthenticated, TodoController.put);
+router.put('/toggle-status', userAthenticated, TodoController.toggle_status);
+router.delete('/todo', userAthenticated, TodoController.destroy);
 
 export default router;
