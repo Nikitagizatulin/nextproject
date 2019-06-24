@@ -1,15 +1,104 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
+import moment from 'moment';
+import {
+    Form,
+    Input,
+    Tooltip,
+    Icon,
+    DatePicker,
+    Row,
+    Col,
+    Button,
+    Select,
+    Divider
+} from 'antd';
 import PropTypes from 'prop-types';
 import * as userActions from 'store/user/actions';
 
 class TodosComponent extends React.Component {
     static propTypes = {
-        user: PropTypes.object.isRequired
+        user: PropTypes.object.isRequired,
+        form: PropTypes.object.isRequired,
+        updateUser: PropTypes.func.isRequired
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                this.props.updateUser(values);
+            }
+        });
     };
 
     render() {
+        const { getFieldDecorator } = this.props.form;
+        const { Option } = Select;
+        const { user } = this.props;
+
+        const date_config = {
+            initialValue: moment(user.age, 'YYYY-MM-DD'),
+            rules: [
+                {
+                    type: 'object',
+                    required: true,
+                    message: 'Please select date of birth'
+                }
+            ]
+        };
+        const gender_config = {
+            initialValue: user.gender,
+            rules: [{ required: true, message: 'Please select your gender!' }]
+        };
+
+        const email_config = {
+            initialValue: user.email,
+            rules: [
+                {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
+                },
+                {
+                    required: true,
+                    message: 'Please input your E-mail!'
+                }
+            ]
+        };
+
+        const password_config = {
+            rules: [
+                {
+                    required: true,
+                    message: 'Please input your password!'
+                },
+                {
+                    validator: this.validateToNextPassword
+                }
+            ]
+        };
+        const password_confirm_config = {
+            rules: [
+                {
+                    required: true,
+                    message: 'Please confirm your password!'
+                },
+                {
+                    validator: this.compareToFirstPassword
+                }
+            ]
+        };
+        const nick_config = {
+            initialValue: user.nickname,
+            rules: [
+                {
+                    required: true,
+                    message: 'Please input your nickname!',
+                    whitespace: true
+                }
+            ]
+        };
+
         return (
             <Row type="flex" justify="center" align="middle">
                 <Col
@@ -19,7 +108,88 @@ class TodosComponent extends React.Component {
                     lg={{ span: 20 }}
                     xl={{ span: 18 }}
                 >
-                    <h1>Profile page</h1>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Item label="E-mail">
+                            {getFieldDecorator('email', email_config)(
+                                <Input autoComplete="new-password" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="DatePicker">
+                            {getFieldDecorator('age', date_config)(
+                                <DatePicker format="YYYY-MM-DD" />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Gender">
+                            {getFieldDecorator('gender', gender_config)(
+                                <Select placeholder="Select a option and change input text above">
+                                    <Option value="male">male</Option>
+                                    <Option value="female">female</Option>
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item hasFeedback>
+                            {getFieldDecorator('password', password_config)(
+                                <Input.Password
+                                    autoComplete="new-password"
+                                    prefix={
+                                        <Icon
+                                            type="lock"
+                                            style={{ color: 'rgba(0,0,0,.25)' }}
+                                        />
+                                    }
+                                    placeholder="Old password"
+                                />
+                            )}
+                        </Form.Item>
+                        <Divider />
+                        <Form.Item label="Password" hasFeedback>
+                            {getFieldDecorator('old-password', password_config)(
+                                <Input.Password
+                                    placeholder="New password"
+                                    autoComplete="new-password"
+                                />
+                            )}
+                        </Form.Item>
+                        <Form.Item label="Confirm Password" hasFeedback>
+                            {getFieldDecorator(
+                                'confirm',
+                                password_confirm_config
+                            )(
+                                <Input.Password
+                                    placeholder="New password confirmation"
+                                    autoComplete="new-password"
+                                    onBlur={this.handleConfirmBlur}
+                                />
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label={
+                                <span>
+                                    Nickname&nbsp;
+                                    <Tooltip title="What do you want others to call you?">
+                                        <Icon type="question-circle-o" />
+                                    </Tooltip>
+                                </span>
+                            }
+                        >
+                            {getFieldDecorator('nickname', nick_config)(
+                                <Input placeholder="John Doe" />
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Row>
+                                <Col span={6} offset={12}>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        size="large"
+                                    >
+                                        Update profile
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form.Item>
+                    </Form>
                 </Col>
             </Row>
         );
@@ -35,4 +205,4 @@ const mapActionsToProps = { ...userActions };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(TodosComponent);
+)(Form.create({ name: 'profile' })(TodosComponent));

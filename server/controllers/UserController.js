@@ -66,11 +66,18 @@ export default {
             });
         }
     },
-
+    async put(req, res) {
+        const user = await User.findByIdAndUpdate(req.user.id, req.body);
+        user
+            ? res.json({
+                  user
+              })
+            : res.status(500);
+    },
     async logout(req, res) {
         req.logout();
         res.clearCookie('jwt');
-        
+
         res.status(200).json({ server: { message: 'success' } });
     },
 

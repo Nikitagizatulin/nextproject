@@ -38,3 +38,15 @@ export const logoutUser = () => ({
         }
     }
 });
+
+export const UPDATE_USER = 'UPDATE_USER';
+export const updateUser = data => ({
+    type: UPDATE_USER,
+    payload: {
+        request: {
+            method: 'PUT',
+            url: 'api/user',
+            data
+        }
+    }
+});

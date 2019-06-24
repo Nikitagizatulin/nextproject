@@ -182,12 +182,15 @@ class RegisterComponent extends Component {
                     </Form.Item>
                     <Form.Item label="Password" hasFeedback>
                         {getFieldDecorator('password', password_config)(
-                            <Input.Password />
+                            <Input.Password autoComplete="new-password" />
                         )}
                     </Form.Item>
                     <Form.Item label="Confirm Password" hasFeedback>
                         {getFieldDecorator('confirm', password_confirm_config)(
-                            <Input.Password onBlur={this.handleConfirmBlur} />
+                            <Input.Password
+                                autoComplete="new-password"
+                                onBlur={this.handleConfirmBlur}
+                            />
                         )}
                     </Form.Item>
                     <Form.Item

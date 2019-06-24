@@ -2,14 +2,13 @@ import { Todo } from '../models';
 export default {
     async index(req, res) {
         const { user } = req;
-        let queryResult = await Todo.find({ user_id: user._id });
+        let queryResult = await Todo.find({ user_id: user._id }, null, {
+            sort: { createdAt: 'desc' }
+        });
         res.json(queryResult);
     },
 
-    async show(req, res) {
-        let queryResult = await Todo.findById(req.params.id);
-        res.send(JSON.stringify(queryResult));
-    },
+    async show() {},
 
     async store(req, res) {
         let queryResult = await Todo.create({

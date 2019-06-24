@@ -27,7 +27,7 @@ export default (state = { todoList: [] }, action) => {
         case success(ADD_TODO):
             return {
                 ...state,
-                todoList: [...state.todoList, action.payload.data]
+                todoList: [action.payload.data, ...state.todoList]
             };
         case error(ADD_TODO):
             return {

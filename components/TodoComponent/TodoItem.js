@@ -30,7 +30,7 @@ const Styles = styled.div`
 
 const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
     return (
-        <Styles>
+        <Styles key={todo._id}>
             <List.Item
                 actions={[
                     <Tooltip title="Remove Todo" key="tooltip">

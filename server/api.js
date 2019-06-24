@@ -10,6 +10,7 @@ const router = express.Router();
 router.post('/register', passwordConfirmation, UserController.register);
 router.post('/login', UserController.login);
 router.post('/logout', UserController.logout);
+router.put('/user', userAthenticated, UserController.put);
 
 router.post('/forgot', UserController.forgot);
 
