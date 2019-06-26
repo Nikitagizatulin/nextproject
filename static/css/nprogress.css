@@ -56,6 +56,11 @@
   position: relative;
 }
 
+/* for ant form */
+form .has-feedback .ant-input-password-icon {
+  margin-right: 18px;
+}
+/* ___________ */
 .nprogress-custom-parent #nprogress .spinner, .nprogress-custom-parent #nprogress .bar {
   position: absolute;
 }

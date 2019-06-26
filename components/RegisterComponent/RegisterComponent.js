@@ -18,7 +18,7 @@ import { registerUser } from 'store/user/actions';
 class RegisterComponent extends Component {
     state = {
         confirmDirty: false,
-        error: []
+        error: {}
     };
 
     static propTypes = {
@@ -44,12 +44,8 @@ class RegisterComponent extends Component {
                         this.props.closeModal();
                     })
                     .catch(({ payload }) => {
-                        const reason = payload.response.data;
-                        const error = [];
+                        const error = payload.response.data;
 
-                        Object.keys(reason).map(key => {
-                            error.push(reason[key].message);
-                        });
                         this.setState({
                             error
                         });
@@ -83,6 +79,23 @@ class RegisterComponent extends Component {
     render() {
         const { visible, closeModal } = this.props;
         const { getFieldDecorator } = this.props.form;
+
+        const { error } = this.state;
+
+        const errorProps = {
+            email: {},
+            password: {}
+        };
+
+        const errorKeys = Object.keys(error);
+        if (errorKeys.length != 0) {
+            errorKeys.map(key => {
+                errorProps[key] = {
+                    validateStatus: 'error',
+                    help: error[key].message
+                };
+            });
+        }
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -164,15 +177,23 @@ class RegisterComponent extends Component {
                 footer={null}
             >
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                    <Form.Item label="E-mail">
+                    <Form.Item label="E-mail" hasFeedback {...errorProps.email}>
                         {getFieldDecorator('email', email_config)(<Input />)}
                     </Form.Item>
-                    <Form.Item label="DatePicker">
+                    <Form.Item
+                        label="DatePicker"
+                        hasFeedback
+                        {...errorProps.age}
+                    >
                         {getFieldDecorator('age', date_config)(
                             <DatePicker format="YYYY-MM-DD" />
                         )}
                     </Form.Item>
-                    <Form.Item label="Gender">
+                    <Form.Item
+                        label="Gender"
+                        hasFeedback
+                        {...errorProps.gender}
+                    >
                         {getFieldDecorator('gender', gender_config)(
                             <Select placeholder="Select a option and change input text above">
                                 <Option value="male">male</Option>
@@ -180,7 +201,11 @@ class RegisterComponent extends Component {
                             </Select>
                         )}
                     </Form.Item>
-                    <Form.Item label="Password" hasFeedback>
+                    <Form.Item
+                        label="Password"
+                        hasFeedback
+                        {...errorProps.password}
+                    >
                         {getFieldDecorator('password', password_config)(
                             <Input.Password autoComplete="new-password" />
                         )}
@@ -194,6 +219,8 @@ class RegisterComponent extends Component {
                         )}
                     </Form.Item>
                     <Form.Item
+                        hasFeedback
+                        {...errorProps.nickname}
                         label={
                             <span>
                                 Nickname&nbsp;

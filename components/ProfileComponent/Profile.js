@@ -23,33 +23,75 @@ class TodosComponent extends React.Component {
         updateUser: PropTypes.func.isRequired
     };
 
+    state = {
+        confirmDirty: false,
+        error: {}
+    };
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.props.updateUser(values);
+                this.props.updateUser(values).catch(({ payload }) => {
+                    const error = payload.response.data;
+
+                    this.setState({
+                        error
+                    });
+                });
             }
         });
+    };
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
+    };
+
+    handleConfirmBlur = e => {
+        const value = e.target.value;
+        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    };
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('new_password')) {
+            callback('Two passwords that you enter is inconsistent!');
+        } else {
+            callback();
+        }
     };
 
     render() {
         const { getFieldDecorator } = this.props.form;
         const { Option } = Select;
         const { user } = this.props;
+        const { error } = this.state;
+
+        const errorProps = {
+            email: {},
+            password: {}
+        };
+
+        const errorKeys = Object.keys(error);
+        if (errorKeys.length != 0) {
+            errorKeys.map(key => {
+                errorProps[key] = {
+                    validateStatus: 'error',
+                    help: error[key].message
+                };
+            });
+        }
 
         const date_config = {
-            initialValue: moment(user.age, 'YYYY-MM-DD'),
-            rules: [
-                {
-                    type: 'object',
-                    required: true,
-                    message: 'Please select date of birth'
-                }
-            ]
+            initialValue: user.age && moment(user.age, 'YYYY-MM-DD')
         };
+
         const gender_config = {
-            initialValue: user.gender,
-            rules: [{ required: true, message: 'Please select your gender!' }]
+            initialValue: user.gender
         };
 
         const email_config = {
@@ -58,20 +100,12 @@ class TodosComponent extends React.Component {
                 {
                     type: 'email',
                     message: 'The input is not valid E-mail!'
-                },
-                {
-                    required: true,
-                    message: 'Please input your E-mail!'
                 }
             ]
         };
 
         const password_config = {
             rules: [
-                {
-                    required: true,
-                    message: 'Please input your password!'
-                },
                 {
                     validator: this.validateToNextPassword
                 }
@@ -80,23 +114,12 @@ class TodosComponent extends React.Component {
         const password_confirm_config = {
             rules: [
                 {
-                    required: true,
-                    message: 'Please confirm your password!'
-                },
-                {
                     validator: this.compareToFirstPassword
                 }
             ]
         };
         const nick_config = {
-            initialValue: user.nickname,
-            rules: [
-                {
-                    required: true,
-                    message: 'Please input your nickname!',
-                    whitespace: true
-                }
-            ]
+            initialValue: user.nickname
         };
 
         return (
@@ -109,17 +132,29 @@ class TodosComponent extends React.Component {
                     xl={{ span: 18 }}
                 >
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Item label="E-mail">
+                        <Form.Item
+                            label="E-mail"
+                            hasFeedback
+                            {...errorProps.email}
+                        >
                             {getFieldDecorator('email', email_config)(
                                 <Input autoComplete="new-password" />
                             )}
                         </Form.Item>
-                        <Form.Item label="DatePicker">
+                        <Form.Item
+                            label="DatePicker"
+                            hasFeedback
+                            {...errorProps.age}
+                        >
                             {getFieldDecorator('age', date_config)(
                                 <DatePicker format="YYYY-MM-DD" />
                             )}
                         </Form.Item>
-                        <Form.Item label="Gender">
+                        <Form.Item
+                            label="Gender"
+                            hasFeedback
+                            {...errorProps.gender}
+                        >
                             {getFieldDecorator('gender', gender_config)(
                                 <Select placeholder="Select a option and change input text above">
                                     <Option value="male">male</Option>
@@ -127,23 +162,26 @@ class TodosComponent extends React.Component {
                                 </Select>
                             )}
                         </Form.Item>
-                        <Form.Item hasFeedback>
-                            {getFieldDecorator('password', password_config)(
-                                <Input.Password
-                                    autoComplete="new-password"
-                                    prefix={
-                                        <Icon
-                                            type="lock"
-                                            style={{ color: 'rgba(0,0,0,.25)' }}
-                                        />
-                                    }
-                                    placeholder="Old password"
-                                />
-                            )}
+                        <Form.Item hasFeedback {...errorProps.old_passwrod}>
+                            <Input.Password
+                                autoComplete="old-password"
+                                name="old_passwrod"
+                                prefix={
+                                    <Icon
+                                        type="lock"
+                                        style={{ color: 'rgba(0,0,0,.25)' }}
+                                    />
+                                }
+                                placeholder="Old password"
+                            />
                         </Form.Item>
                         <Divider />
-                        <Form.Item label="Password" hasFeedback>
-                            {getFieldDecorator('old-password', password_config)(
+                        <Form.Item
+                            label="Password"
+                            hasFeedback
+                            {...errorProps.new_password}
+                        >
+                            {getFieldDecorator('new_password', password_config)(
                                 <Input.Password
                                     placeholder="New password"
                                     autoComplete="new-password"
@@ -171,6 +209,8 @@ class TodosComponent extends React.Component {
                                     </Tooltip>
                                 </span>
                             }
+                            hasFeedback
+                            {...errorProps.nickname}
                         >
                             {getFieldDecorator('nickname', nick_config)(
                                 <Input placeholder="John Doe" />

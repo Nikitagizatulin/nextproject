@@ -85,7 +85,7 @@ export default (state = initialState, action) => {
             removeCookie('jwt');
             return {
                 isAuthnticated: false,
-                user: null,
+                user: {},
                 loading: false,
                 error: {}
             };

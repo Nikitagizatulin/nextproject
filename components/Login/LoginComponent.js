@@ -9,7 +9,8 @@ class Login extends Component {
         visible: PropTypes.bool,
         closeModal: PropTypes.func.isRequired,
         loginUser: PropTypes.func.isRequired,
-        form: PropTypes.object.isRequired
+        form: PropTypes.object.isRequired,
+        openRegisterModal: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -42,13 +43,15 @@ class Login extends Component {
     };
 
     render() {
-        const { visible, closeModal } = this.props;
+        const { visible, closeModal, openRegisterModal } = this.props;
         const { getFieldDecorator } = this.props.form;
         const { error } = this.state;
+        
         const errorProps = {
             email: {},
             password: {}
         };
+        
         const errorKeys = Object.keys(error);
         if (errorKeys.length != 0) {
             errorKeys.map(key => {
@@ -120,13 +123,14 @@ class Login extends Component {
                     </Form.Item>
                     <Form.Item>
                         <Button
+                            block
                             type="primary"
                             htmlType="submit"
                             className="login-form-button"
                         >
                             Log in
                         </Button>
-                        Or <a href="">register now!</a>
+                        Or <a onClick={openRegisterModal}>register now!</a>
                     </Form.Item>
                 </Form>
             </Modal>
