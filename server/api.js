@@ -4,13 +4,14 @@ import TodoController from './controllers/TodoController';
 import UserController from './controllers/UserController';
 import passwordConfirmation from './middlewares/passwordConfirmation';
 import userAthenticated from './middlewares/userAthenticated';
+import updateUserProfile from './middlewares/updateUserProfile';
 
 const router = express.Router();
 
 router.post('/register', passwordConfirmation, UserController.register);
 router.post('/login', UserController.login);
 router.post('/logout', UserController.logout);
-router.put('/user', userAthenticated, UserController.put);
+router.put('/user', userAthenticated, updateUserProfile, UserController.put);
 
 router.post('/forgot', UserController.forgot);
 

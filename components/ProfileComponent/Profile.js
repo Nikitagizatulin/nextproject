@@ -63,7 +63,7 @@ class Profile extends React.Component {
 
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
-        if (value && value !== form.getFieldValue('new_password')) {
+        if (value && value !== form.getFieldValue('password')) {
             callback('Two passwords that you enter is inconsistent!');
         } else {
             callback();
@@ -76,14 +76,7 @@ class Profile extends React.Component {
         const { user } = this.props;
         const { error } = this.state;
 
-        const errorProps = {
-            email: {},
-            old_passwrod: {},
-            age: {},
-            gender: {},
-            nickname: {},
-            new_password: {}
-        };
+        const errorProps = {};
 
         const errorKeys = Object.keys(error);
         if (errorKeys.length != 0) {
@@ -96,7 +89,7 @@ class Profile extends React.Component {
         }
 
         const date_config = {
-            initialValue: user.age && moment(user.age, 'YYYY-MM-DD')
+            initialValue: user.age && moment(user.age)
         };
 
         const gender_config = {
@@ -159,26 +152,27 @@ class Profile extends React.Component {
                                 </Select>
                             )}
                         </Form.Item>
-                        <Form.Item hasFeedback {...errorProps.old_passwrod}>
-                            <Input.Password
-                                autoComplete="old-password"
-                                name="old_passwrod"
-                                prefix={
-                                    <Icon
-                                        type="lock"
-                                        style={{ color: 'rgba(0,0,0,.25)' }}
-                                    />
-                                }
-                                placeholder="Old password"
-                            />
+                        <Form.Item hasFeedback {...errorProps.old_password}>
+                            {getFieldDecorator('old_password')(
+                                <Input.Password
+                                    autoComplete="new-password"
+                                    prefix={
+                                        <Icon
+                                            type="lock"
+                                            style={{ color: 'rgba(0,0,0,.25)' }}
+                                        />
+                                    }
+                                    placeholder="Old password"
+                                />
+                            )}
                         </Form.Item>
                         <Divider />
                         <Form.Item
                             label="Password"
                             hasFeedback
-                            {...errorProps.new_password}
+                            {...errorProps.password}
                         >
-                            {getFieldDecorator('new_password', password_config)(
+                            {getFieldDecorator('password', password_config)(
                                 <Input.Password
                                     placeholder="New password"
                                     autoComplete="new-password"

@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { User } from '../models';
+import bcrypt from 'bcrypt-nodejs';
 
 const ONE_WEEK = 60 * 60 * 24 * 7;
 
@@ -68,6 +69,12 @@ export default {
     },
     async put(req, res) {
         try {
+            if (req.body.password) {
+                const salt = bcrypt.genSaltSync(10);
+                const hash = await bcrypt.hashSync(req.body.password, salt);
+                req.body.password = hash;
+            }
+
             const user = await User.findByIdAndUpdate(req.user.id, req.body, {
                 new: true
             });
