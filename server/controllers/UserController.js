@@ -67,12 +67,23 @@ export default {
         }
     },
     async put(req, res) {
-        const user = await User.findByIdAndUpdate(req.user.id, req.body);
-        user
-            ? res.json({
-                  user
-              })
-            : res.status(500);
+        try {
+            const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+                new: true
+            });
+
+            res.cookie('jwt', jwtSignUser(user.toJSON()), {
+                httpOnly: false,
+                maxAge: ONE_WEEK * 1000,
+                expires: new Date(Date.now() + ONE_WEEK * 1000)
+            });
+
+            return res.json({
+                user
+            });
+        } catch ({ errors }) {
+            return res.status(500).json(errors);
+        }
     },
     async logout(req, res) {
         req.logout();

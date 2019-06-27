@@ -11,12 +11,13 @@ import {
     Col,
     Button,
     Select,
-    Divider
+    Divider,
+    message
 } from 'antd';
 import PropTypes from 'prop-types';
 import * as userActions from 'store/user/actions';
 
-class TodosComponent extends React.Component {
+class Profile extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         form: PropTypes.object.isRequired,
@@ -32,13 +33,17 @@ class TodosComponent extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.props.updateUser(values).catch(({ payload }) => {
-                    const error = payload.response.data;
-
-                    this.setState({
-                        error
+                this.props
+                    .updateUser(values)
+                    .then(() => {
+                        message.success('Your profile has been updated!');
+                    })
+                    .catch(({ payload }) => {
+                        const error = payload.response.data;
+                        this.setState({
+                            error
+                        });
                     });
-                });
             }
         });
     };
@@ -73,7 +78,11 @@ class TodosComponent extends React.Component {
 
         const errorProps = {
             email: {},
-            password: {}
+            old_passwrod: {},
+            age: {},
+            gender: {},
+            nickname: {},
+            new_password: {}
         };
 
         const errorKeys = Object.keys(error);
@@ -132,29 +141,17 @@ class TodosComponent extends React.Component {
                     xl={{ span: 18 }}
                 >
                     <Form onSubmit={this.handleSubmit}>
-                        <Form.Item
-                            label="E-mail"
-                            hasFeedback
-                            {...errorProps.email}
-                        >
+                        <Form.Item label="E-mail" {...errorProps.email}>
                             {getFieldDecorator('email', email_config)(
                                 <Input autoComplete="new-password" />
                             )}
                         </Form.Item>
-                        <Form.Item
-                            label="DatePicker"
-                            hasFeedback
-                            {...errorProps.age}
-                        >
+                        <Form.Item label="DatePicker" {...errorProps.age}>
                             {getFieldDecorator('age', date_config)(
                                 <DatePicker format="YYYY-MM-DD" />
                             )}
                         </Form.Item>
-                        <Form.Item
-                            label="Gender"
-                            hasFeedback
-                            {...errorProps.gender}
-                        >
+                        <Form.Item label="Gender" {...errorProps.gender}>
                             {getFieldDecorator('gender', gender_config)(
                                 <Select placeholder="Select a option and change input text above">
                                     <Option value="male">male</Option>
@@ -209,7 +206,6 @@ class TodosComponent extends React.Component {
                                     </Tooltip>
                                 </span>
                             }
-                            hasFeedback
                             {...errorProps.nickname}
                         >
                             {getFieldDecorator('nickname', nick_config)(
@@ -245,4 +241,4 @@ const mapActionsToProps = { ...userActions };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(Form.create({ name: 'profile' })(TodosComponent));
+)(Form.create({ name: 'profile' })(Profile));

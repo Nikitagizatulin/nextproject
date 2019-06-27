@@ -82,10 +82,7 @@ class RegisterComponent extends Component {
 
         const { error } = this.state;
 
-        const errorProps = {
-            email: {},
-            password: {}
-        };
+        const errorProps = {};
 
         const errorKeys = Object.keys(error);
         if (errorKeys.length != 0) {

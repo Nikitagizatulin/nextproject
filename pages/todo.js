@@ -1,20 +1,19 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Navbar from 'components/Navbar';
 import WithAuth from 'components/common_components/WithAuth';
 import TodoComponent from 'components/TodoComponent';
-import Styles from '../pages_styles/home';
 
 class Todo extends React.Component {
     render() {
         return (
-            <Styles>
+            <Fragment>
                 <Head>
                     <title>Todo list</title>
                 </Head>
                 <Navbar />
                 <TodoComponent />
-            </Styles>
+            </Fragment>
         );
     }
 }
