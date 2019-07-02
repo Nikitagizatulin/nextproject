@@ -2,11 +2,13 @@ import express from 'express';
 
 import TodoController from './controllers/TodoController';
 import UserController from './controllers/UserController';
+import HomeController from './controllers/HomeController';
 import passwordConfirmation from './middlewares/passwordConfirmation';
 import userAthenticated from './middlewares/userAthenticated';
 import updateUserProfile from './middlewares/updateUserProfile';
 
 const router = express.Router();
+router.get('/home', HomeController.index);
 
 router.post('/register', passwordConfirmation, UserController.register);
 router.post('/login', UserController.login);

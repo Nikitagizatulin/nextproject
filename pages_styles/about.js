@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 const about = styled.div`
     font-family: 'Quando', serif;
-    .about-page_title,
-    .about-page_subtitle {
+    .about-page_title {
         text-align: center;
         color: #1890ff;
         font-weight: 500;
@@ -11,8 +10,8 @@ const about = styled.div`
         margin-left: auto;
         margin-right: auto;
     }
-    .paragraph,.technologies-list {
-        color: #1890ff;
+    .about-page_subtitle{
+        font-weight:500;
     }
 `;
 export default about;

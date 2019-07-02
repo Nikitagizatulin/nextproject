@@ -1,5 +1,7 @@
 PORT=8080
-RESOURCE_BASE=http://127.0.0.1
+APP_NAME=localhost
+
+NODE_ENV=local
 
 DB_NAME=name
 DB_USER=root

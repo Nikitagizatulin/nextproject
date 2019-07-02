@@ -12,18 +12,19 @@ export default class About extends React.Component {
                     <title>Next project: About page</title>
                 </Head>
                 <Navbar />
-                <Title className="about-page_title">Too project.</Title>
+                <Title className="about-page_title">Todo project.</Title>
                 <Divider />
-                <Title level={3} className="about-page_subtitle">
-                    It&apos;s simple way to stored your tasks. You can edit your
-                    task, delete and set to completed status. For started to use
-                    the application, please log in or sign up.
-                </Title>
-                <Title level={3} className="about-page_subtitle">
-                    This project uses the following technologies:
-                </Title>
                 <Row>
-                    <Col span={12} offset={6}>
+                    <Col span={18} offset={3}>
+                        <Title level={3} className="about-page_subtitle">
+                            It&apos;s simple way to stored your tasks. You can
+                            edit your task, delete and set to completed status.
+                            For started to use the application, please log in or
+                            sign up.
+                        </Title>
+                        <Title level={3} className="about-page_subtitle">
+                            This project uses the following technologies:
+                        </Title>
                         <ul className="technologies-list">
                             <li>
                                 Server: Node.js / Express.js / Mongoose /
