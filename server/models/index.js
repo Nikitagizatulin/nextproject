@@ -1,6 +1,6 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
-
+// use require insted of import because 'mongoose' does not provide an export name
 const database = process.env.DB_NAME || 'todo';
 const authSource = process.env.DB_AUTH_SOURCE;
 let uri = `mongodb://localhost/${database}`;
