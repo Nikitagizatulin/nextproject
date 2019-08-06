@@ -7,7 +7,7 @@ import todosReducer from './todos/reducer';
 import userReducer from './user/reducer';
 
 import saga from './saga';
-import logger from './middlewares/logger';
+import logger from './middleware/logger';
 
 const rootReducer = combineReducers({
   todos: todosReducer,

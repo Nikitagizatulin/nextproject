@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 class LeftMenu extends Component {
   static propTypes = {
     selectedKeys: PropTypes.array,
-    isAuthnticated: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -15,7 +15,7 @@ class LeftMenu extends Component {
   };
 
   render() {
-    const { selectedKeys, isAuthnticated } = this.props;
+    const { selectedKeys, isAuthenticated } = this.props;
 
     return (
       <Menu mode="horizontal" selectedKeys={selectedKeys}>
@@ -35,7 +35,7 @@ class LeftMenu extends Component {
             </a>
           </Link>
         </Menu.Item>
-        {isAuthnticated && (
+        {isAuthenticated && (
           <Menu.Item key="todo">
             <Link href="/todo">
               <a>
@@ -45,7 +45,7 @@ class LeftMenu extends Component {
             </Link>
           </Menu.Item>
         )}
-        {isAuthnticated && (
+        {isAuthenticated && (
           <Menu.Item key="profile">
             <Link href="/profile">
               <a>
@@ -61,7 +61,7 @@ class LeftMenu extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthnticated: state.user.isAuthnticated,
+  isAuthenticated: state.user.isAuthenticated,
 });
 
 export default connect(mapStateToProps)(LeftMenu);

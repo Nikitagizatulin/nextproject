@@ -9,7 +9,7 @@ import { logoutUser } from 'store/user/actions';
 
 class RightMenu extends Component {
     static propTypes = {
-        isAuthnticated: PropTypes.bool.isRequired,
+        isAuthenticated: PropTypes.bool.isRequired,
         logoutUser: PropTypes.func.isRequired
     };
 
@@ -25,7 +25,7 @@ class RightMenu extends Component {
         });
     };
 
-    logut = () => {
+    logout = () => {
         this.props.logoutUser();
         Router.push('/');
     };
@@ -53,7 +53,7 @@ class RightMenu extends Component {
 
     authLinks = () => (
         <Menu mode="horizontal">
-            <Menu.Item key="login" onClick={this.logut}>
+            <Menu.Item key="login" onClick={this.logout}>
                 <a>Logout</a>
             </Menu.Item>
         </Menu>
@@ -62,11 +62,11 @@ class RightMenu extends Component {
     render() {
         const { openedLoginModal, openedRegisterModal } = this.state;
         const { closeModalHandler, guestLinks, authLinks } = this;
-        const { isAuthnticated } = this.props;
+        const { isAuthenticated } = this.props;
 
         return (
             <Fragment>
-                {isAuthnticated ? authLinks() : guestLinks()}
+                {isAuthenticated ? authLinks() : guestLinks()}
                 <LoginComponent
                     visible={openedLoginModal}
                     closeModal={closeModalHandler}
@@ -87,7 +87,7 @@ class RightMenu extends Component {
 }
 
 const mapStateToProps = state => ({
-    isAuthnticated: state.user.isAuthnticated
+    isAuthenticated: state.user.isAuthenticated
 });
 
 export default connect(

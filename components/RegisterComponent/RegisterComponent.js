@@ -138,6 +138,11 @@ class RegisterComponent extends Component {
                     message: 'Please input your password!'
                 },
                 {
+                    pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
+                    message:
+                        'Password field must contain at least one number, one lowercase, one uppercase letter and least six characters'
+                },
+                {
                     validator: this.validateToNextPassword
                 }
             ]

@@ -63,7 +63,7 @@ export default {
             });
         } catch (e) {
             res.status(500).json({
-                server: { message: 'An error has occured trying to log in' }
+                server: { message: 'An error has occurred trying to log in' }
             });
         }
     },
@@ -115,7 +115,7 @@ export default {
             service: 'Gmail',
             auth: {
                 user: 'gmail',
-                pass: 'passowrd'
+                pass: 'password'
             }
         });
         const mailOptions = {

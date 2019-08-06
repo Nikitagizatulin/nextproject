@@ -9,7 +9,7 @@ import {
 } from './actions';
 
 const initialState = {
-    isAuthnticated: false,
+    isAuthenticated: false,
     user: null,
     loading: false,
     error: {}
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload.data,
-                isAuthnticated: true,
+                isAuthenticated: true,
                 loading: false,
                 error: {}
             };
@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                isAuthnticated: false,
+                isAuthenticated: false,
                 error: {
                     ...action.payload.response.data
                 }
@@ -48,14 +48,14 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload.data,
-                isAuthnticated: true,
+                isAuthenticated: true,
                 loading: false,
                 error: {}
             };
         case error(REGISTER_USER):
             return {
                 ...state,
-                isAuthnticated: false,
+                isAuthenticated: false,
                 loading: false,
                 error: {
                     ...action.payload.response.data
@@ -84,7 +84,7 @@ export default (state = initialState, action) => {
         case LOGOUT_USER:
             removeCookie('jwt');
             return {
-                isAuthnticated: false,
+                isAuthenticated: false,
                 user: {},
                 loading: false,
                 error: {}

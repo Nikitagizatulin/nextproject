@@ -10,6 +10,9 @@ const { Title } = Typography;
 
 class Index extends React.Component {
     static async getInitialProps() {
+    // static async getInitialProps({ store }) {
+        //TODO: make request below with redux store.dispatch();
+
         let statistic;
         if (process.env.PORT && process.env.APP_NAME) {
             statistic = await axios.get(

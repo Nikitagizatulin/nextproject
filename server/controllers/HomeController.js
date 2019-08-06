@@ -3,9 +3,11 @@ import { User } from '../models';
 
 export default {
     async index(req, res) {
-        const countOfUsers = await User.count();
-        const countOfTodos = await Todo.count();
-        const countOfCompletedTodos = await Todo.count({ completed: true });
+        const countOfUsers = await User.countDocuments();
+        const countOfTodos = await Todo.countDocuments();
+        const countOfCompletedTodos = await Todo.countDocuments({
+            completed: true
+        });
         res.json({
             countOfUsers,
             countOfTodos,

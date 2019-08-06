@@ -14,7 +14,7 @@ export default AuthComponent => {
         }
 
         static propTypes = {
-            isAuthnticated: PropTypes.bool.isRequired,
+            isAuthenticated: PropTypes.bool.isRequired,
             logoutUser: PropTypes.func.isRequired
         };
 
@@ -23,7 +23,7 @@ export default AuthComponent => {
         };
 
         UNSAFE_componentWillMount() {
-            if (!this.props.isAuthnticated) {
+            if (!this.props.isAuthenticated) {
                 logoutUser();
                 this.setState({
                     error: {
@@ -51,7 +51,7 @@ export default AuthComponent => {
     }
 
     const mapStateToProps = state => ({
-        isAuthnticated: state.user.isAuthnticated
+        isAuthenticated: state.user.isAuthenticated
     });
 
     return connect(
