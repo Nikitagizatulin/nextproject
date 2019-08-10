@@ -4,10 +4,20 @@ import {
     UPDATE_TODO_STATUS,
     DELETE_TODO,
     UPDATE_TODO_VALUE,
-    FETCH_TODOS
+    FETCH_TODOS,
+    FETCH_STATISTIC
 } from './actions';
 
-export default (state = { todoList: [] }, action) => {
+const initialState = {
+    todoList: [],
+    todoStatistic: {
+        countOfUsers: 0,
+        countOfTodos: 0,
+        countOfCompletedTodos: 0
+    }
+};
+
+export default (state = initialState, action) => {
     switch (action.type) {
         case FETCH_TODOS:
             return state;
@@ -17,6 +27,19 @@ export default (state = { todoList: [] }, action) => {
                 todoList: action.payload.data
             };
         case error(FETCH_TODOS):
+            return {
+                ...state,
+                error: action.payload.error,
+                todoList: []
+            };
+        case FETCH_STATISTIC:
+            return state;
+        case success(FETCH_STATISTIC):
+            return {
+                ...state,
+                todoStatistic: action.payload.data
+            };
+        case error(FETCH_STATISTIC):
             return {
                 ...state,
                 error: action.payload.error,

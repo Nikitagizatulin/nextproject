@@ -51,3 +51,14 @@ export const deleteTodo = id => ({
         }
     }
 });
+
+export const FETCH_STATISTIC = 'FETCH_STATISTIC';
+export const fetchStatistic = () => ({
+    type: FETCH_STATISTIC,
+    payload: {
+        request: {
+            method: 'GET',
+            url: `api/home`
+        }
+    }
+});

@@ -3,26 +3,16 @@ import React from 'react';
 import { Typography, Row, Col } from 'antd';
 import Navbar from 'components/Navbar';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import Styles from '../pages_styles/home';
+import { fetchStatistic } from '../store/todos/actions';
+import { connect } from 'react-redux';
 
 const { Title } = Typography;
 
 class Index extends React.Component {
-    static async getInitialProps() {
-    // static async getInitialProps({ store }) {
-        //TODO: make request below with redux store.dispatch();
-
-        let statistic;
-        if (process.env.PORT && process.env.APP_NAME) {
-            statistic = await axios.get(
-                `http://${process.env.APP_NAME}:${process.env.PORT}/api/home`
-            );
-        } else {
-            statistic = await axios.get('/api/home');
-        }
-
-        return statistic.data;
+    static async getInitialProps({ store }) {
+        await store.dispatch(fetchStatistic());
+        return {};
     }
 
     static propTypes = {
@@ -73,4 +63,8 @@ class Index extends React.Component {
     }
 }
 
-export default Index;
+const mapStateToProps = state => ({
+    ...state.todos.todoStatistic
+});
+
+export default connect(mapStateToProps)(Index);

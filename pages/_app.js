@@ -14,7 +14,7 @@ class MyApp extends App {
             ? jsonwebtoken.decode(getCookie('jwt'))
             : jsonwebtoken.decode(getCookie('jwt', ctx.req));
         if (user) {
-            ctx.store.dispatch(
+            await ctx.store.dispatch(
                 userFromCookie({ isAuthenticated: !!user, user })
             );
         }
