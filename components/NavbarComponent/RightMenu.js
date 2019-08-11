@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Menu } from 'antd';
-import LoginComponent from 'components/Login';
-import RegisterComponent from 'components/RegisterComponent';
+import Login from 'components/LoginComponent/Login';
+import Register from 'components/RegisterComponent/Register';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
@@ -67,7 +67,7 @@ class RightMenu extends Component {
         return (
             <Fragment>
                 {isAuthenticated ? authLinks() : guestLinks()}
-                <LoginComponent
+                <Login
                     visible={openedLoginModal}
                     closeModal={closeModalHandler}
                     openRegisterModal={() => {
@@ -77,7 +77,7 @@ class RightMenu extends Component {
                         });
                     }}
                 />
-                <RegisterComponent
+                <Register
                     visible={openedRegisterModal}
                     closeModal={closeModalHandler}
                 />

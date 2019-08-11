@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import React from 'react';
 import { Typography, Row, Col } from 'antd';
-import Navbar from 'components/Navbar';
+import Navbar from 'components/NavbarComponent/Navbar';
 import PropTypes from 'prop-types';
-import Styles from '../pages_styles/home';
+import HomeStyles from '../pages_styles/HomeStyles';
 import { fetchStatistic } from '../store/todos/actions';
 import { connect } from 'react-redux';
 
@@ -28,7 +28,7 @@ class Index extends React.Component {
             countOfCompletedTodos
         } = this.props;
         return (
-            <Styles>
+            <HomeStyles>
                 <Head>
                     <title>Next project: Homepage</title>
                 </Head>
@@ -58,7 +58,7 @@ class Index extends React.Component {
                         </p>
                     </Col>
                 </Row>
-            </Styles>
+            </HomeStyles>
         );
     }
 }

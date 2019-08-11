@@ -12,8 +12,8 @@ function jwtSignUser(user) {
     });
 }
 
-export default {
-    async register(req, res) {
+export default class UserController {
+    static async register(req, res) {
         res.status(200);
         try {
             const user = new User(req.body);
@@ -33,9 +33,9 @@ export default {
         } catch (e) {
             res.status(400).json(e.errors);
         }
-    },
+    }
 
-    async login(req, res) {
+    static async login(req, res) {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email });
@@ -66,8 +66,9 @@ export default {
                 server: { message: 'An error has occurred trying to log in' }
             });
         }
-    },
-    async put(req, res) {
+    }
+
+    static async put(req, res) {
         try {
             if (req.body.password) {
                 const salt = bcrypt.genSaltSync(10);
@@ -91,15 +92,16 @@ export default {
         } catch ({ errors }) {
             return res.status(500).json(errors);
         }
-    },
-    async logout(req, res) {
+    }
+
+    static async logout(req, res) {
         req.logout();
         res.clearCookie('jwt');
 
         res.status(200).json({ server: { message: 'success' } });
-    },
+    }
 
-    async forgot(req, res) {
+    static async forgot(req, res) {
         const resetToken = crypto.randomBytes(20).toString('hex');
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
@@ -137,4 +139,4 @@ export default {
             );
         });
     }
-};
+}

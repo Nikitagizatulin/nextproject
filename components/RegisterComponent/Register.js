@@ -14,8 +14,9 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from 'store/user/actions';
+import { fetchStatistic } from 'store/todos/actions';
 
-class RegisterComponent extends Component {
+class Register extends Component {
     state = {
         confirmDirty: false,
         error: {}
@@ -25,13 +26,15 @@ class RegisterComponent extends Component {
         visible: PropTypes.bool,
         closeModal: PropTypes.func,
         registerUser: PropTypes.func,
-        form: PropTypes.object.isRequired
+        form: PropTypes.object.isRequired,
+        fetchStatistic: PropTypes.func
     };
 
     static defaultProps = {
         visible: false,
         closeModal: () => {},
-        registerUser: () => {}
+        registerUser: () => {},
+        fetchStatistic: () => {}
     };
 
     handleSubmit = e => {
@@ -42,6 +45,7 @@ class RegisterComponent extends Component {
                     .registerUser(values)
                     .then(() => {
                         this.props.closeModal();
+                        this.props.fetchStatistic();
                     })
                     .catch(({ payload }) => {
                         const error = payload.response.data;
@@ -253,5 +257,5 @@ const mapStateToProps = state => state;
 
 export default connect(
     mapStateToProps,
-    { registerUser }
-)(Form.create({ name: 'register' })(RegisterComponent));
+    { registerUser, fetchStatistic }
+)(Form.create({ name: 'register' })(Register));

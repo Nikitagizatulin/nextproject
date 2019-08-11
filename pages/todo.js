@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import React, { Fragment } from 'react';
-import Navbar from 'components/Navbar';
+import Navbar from 'components/NavbarComponent/Navbar';
 import WithAuth from 'components/common_components/WithAuth';
-import TodoComponent from 'components/TodoComponent';
+import TodoComponent from 'components/TodoComponent/Todo';
 
 class Todo extends React.Component {
     render() {

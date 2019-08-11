@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import React from 'react';
-import Navbar from 'components/Navbar';
+import Navbar from 'components/NavbarComponent/Navbar';
 import { Typography, Divider, Row, Col } from 'antd';
-import Styles from '../pages_styles/about';
+import AboutStyles from '../pages_styles/AboutStyles';
 const { Title } = Typography;
 export default class About extends React.Component {
     render() {
         return (
-            <Styles>
+            <AboutStyles>
                 <Head>
                     <title>Next project: About page</title>
                 </Head>
@@ -51,7 +51,7 @@ export default class About extends React.Component {
                         </p>
                     </Col>
                 </Row>
-            </Styles>
+            </AboutStyles>
         );
     }
 }

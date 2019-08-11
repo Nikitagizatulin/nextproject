@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const about = styled.div`
+const AboutStyles = styled.div`
     font-family: 'Quando', serif;
     .about-page_title {
         text-align: center;
@@ -10,8 +10,8 @@ const about = styled.div`
         margin-left: auto;
         margin-right: auto;
     }
-    .about-page_subtitle{
-        font-weight:500;
+    .about-page_subtitle {
+        font-weight: 500;
     }
 `;
-export default about;
+export default AboutStyles;

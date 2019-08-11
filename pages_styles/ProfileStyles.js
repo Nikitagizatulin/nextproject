@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Profile = styled.div`
+const ProfileStyles = styled.div`
     font-family: 'Quando', serif;
     .home-page_title,
     .home-page_subtitle {
@@ -12,4 +12,4 @@ const Profile = styled.div`
         margin-right: auto;
     }
 `;
-export default Profile;
+export default ProfileStyles;

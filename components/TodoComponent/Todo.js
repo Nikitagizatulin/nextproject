@@ -6,7 +6,7 @@ import AddTodoForm from './AddTodoForm';
 import * as todoActions from 'store/todos/actions';
 import TodoList from './TodoList';
 
-class TodosComponent extends React.Component {
+class Todo extends React.Component {
     static propTypes = {
         todos: PropTypes.array.isRequired,
         addTodo: PropTypes.func.isRequired,
@@ -63,4 +63,4 @@ const mapActionsToProps = { ...todoActions };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(TodosComponent);
+)(Todo);

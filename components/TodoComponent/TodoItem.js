@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, Tooltip, Tag, Icon, List, Button } from 'antd';
 import styled from 'styled-components';
 
-const Styles = styled.div`
+const TodoItemStyles = styled.div`
     .todo-form {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -30,7 +30,7 @@ const Styles = styled.div`
 
 const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
     return (
-        <Styles key={todo._id}>
+        <TodoItemStyles key={todo._id}>
             <List.Item
                 actions={[
                     <Tooltip title="Remove Todo" key="tooltip">
@@ -70,7 +70,7 @@ const TodoItem = ({ todo, onTodoRemoval, onTodoToggle }) => {
                     </div>
                 </div>
             </List.Item>
-        </Styles>
+        </TodoItemStyles>
     );
 };
 

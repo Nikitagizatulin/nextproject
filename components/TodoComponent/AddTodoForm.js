@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Icon, Row, Col, Button, Input } from 'antd';
 import styled from 'styled-components';
 
-const Styles = styled.div`
+const AddTodoStyles = styled.div`
     .todo-form {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -35,7 +35,7 @@ const AddTodoForm = ({ form, onFormSubmit }) => {
     };
 
     return (
-        <Styles>
+        <AddTodoStyles>
             <Form
                 onSubmit={e => handleSubmit(e)}
                 layout="horizontal"
@@ -71,7 +71,7 @@ const AddTodoForm = ({ form, onFormSubmit }) => {
                     </Col>
                 </Row>
             </Form>
-        </Styles>
+        </AddTodoStyles>
     );
 };
 

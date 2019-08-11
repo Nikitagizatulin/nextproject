@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Menu, Icon } from 'antd';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
