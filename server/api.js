@@ -1,27 +1,27 @@
 import express from 'express';
 
-import TodoController from './controllers/TodoController';
-import UserController from './controllers/UserController';
-import HomeController from './controllers/HomeController';
+import todoController from './controllers/todoController';
+import userController from './controllers/userController';
+import homeController from './controllers/homeController';
 import passwordConfirmation from './middleware/passwordConfirmation';
 import userAuthenticated from './middleware/userAuthenticated';
 import updateUserProfile from './middleware/updateUserProfile';
 
 const router = express.Router();
-router.get('/home', HomeController.index);
+router.get('/home', homeController.index);
 
-router.post('/register', passwordConfirmation, UserController.register);
-router.post('/login', UserController.login);
-router.post('/logout', UserController.logout);
-router.put('/user', userAuthenticated, updateUserProfile, UserController.put);
+router.post('/register', passwordConfirmation, userController.register);
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+router.put('/user', userAuthenticated, updateUserProfile, userController.put);
 
-router.post('/forgot', UserController.forgot);
+router.post('/forgot', userController.forgot);
 
-router.get('/todos', userAuthenticated, TodoController.index);
-router.post('/todo', userAuthenticated, TodoController.store);
-router.get('/todo/:id', userAuthenticated, TodoController.show);
-router.put('/todo', userAuthenticated, TodoController.put);
-router.put('/toggle-status', userAuthenticated, TodoController.toggle_status);
-router.delete('/todo', userAuthenticated, TodoController.destroy);
+router.get('/todos', userAuthenticated, todoController.index);
+router.post('/todo', userAuthenticated, todoController.store);
+router.get('/todo/:id', userAuthenticated, todoController.show);
+router.put('/todo', userAuthenticated, todoController.put);
+router.put('/toggle-status', userAuthenticated, todoController.toggle_status);
+router.delete('/todo', userAuthenticated, todoController.destroy);
 
 export default router;

@@ -14,7 +14,6 @@ function jwtSignUser(user) {
 
 export default class UserController {
     static async register(req, res) {
-        res.status(200);
         try {
             const user = new User(req.body);
             user.confirm_token = crypto.randomBytes(20).toString('hex');
@@ -27,11 +26,11 @@ export default class UserController {
                 expires: new Date(Date.now() + ONE_WEEK * 1000)
             });
 
-            res.json({
+            res.status(200).json({
                 user: userData
             });
-        } catch (e) {
-            res.status(400).json(e.errors);
+        } catch ({ errors }) {
+            res.status(500).json(errors);
         }
     }
 
@@ -41,7 +40,7 @@ export default class UserController {
             const user = await User.findOne({ email });
 
             if (!user) {
-                return res.status(400).json({
+                return res.status(422).json({
                     email: { message: 'User with such email not found!' }
                 });
             }
@@ -50,7 +49,7 @@ export default class UserController {
 
             if (!isPasswordValid) {
                 return res
-                    .status(400)
+                    .status(422)
                     .json({ password: { message: 'Incorrect password' } });
             }
             res.cookie('jwt', jwtSignUser(user.toJSON()), {
@@ -102,41 +101,45 @@ export default class UserController {
     }
 
     static async forgot(req, res) {
-        const resetToken = crypto.randomBytes(20).toString('hex');
-        const user = await User.findOne({ email: req.body.email });
-        if (!user) {
-            return res.status(400).json({
-                email: { message: 'User with such email not found!' }
-            });
-        }
-
-        user.reset_token = resetToken;
-        user.reset_token_expires = Date.now() + 3600000; // 1 hour
-        const updatedUser = await user.save();
-        const smtpTransport = nodemailer.createTransport('SMTP', {
-            service: 'Gmail',
-            auth: {
-                user: 'gmail',
-                pass: 'password'
+        try {
+            const resetToken = crypto.randomBytes(20).toString('hex');
+            const user = await User.findOne({ email: req.body.email });
+            if (!user) {
+                return res.status(422).json({
+                    email: { message: 'User with such email not found!' }
+                });
             }
-        });
-        const mailOptions = {
-            to: updatedUser.email,
-            from: 'todolist@gmail.com',
-            subject: 'Password Reset',
-            text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
+
+            user.reset_token = resetToken;
+            user.reset_token_expires = Date.now() + 3600000; // 1 hour
+            const updatedUser = await user.save();
+            const smtpTransport = nodemailer.createTransport('SMTP', {
+                service: 'Gmail',
+                auth: {
+                    user: 'gmail',
+                    pass: 'password'
+                }
+            });
+            const mailOptions = {
+                to: updatedUser.email,
+                from: 'todolist@gmail.com',
+                subject: 'Password Reset',
+                text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
         Please click on the following link, or paste this into your browser to complete the process:
         http://${req.headers.host}/reset/${resetToken}
         If you did not request this, please ignore this email and your password will remain unchanged.`
-        };
-        smtpTransport.sendMail(mailOptions, err => {
-            if (err)
-                return res.status(400).json('Having trouble sending email');
-            res.json(
-                `An e-mail has been sent to ${
-                    user.email
-                } with further instructions.`
-            );
-        });
+            };
+            smtpTransport.sendMail(mailOptions, err => {
+                if (err)
+                    return res.status(500).json('Having trouble sending email');
+                res.json(
+                    `An e-mail has been sent to ${
+                        user.email
+                    } with further instructions.`
+                );
+            });
+        } catch ({ errors }) {
+            return res.status(500).json(errors);
+        }
     }
 }
