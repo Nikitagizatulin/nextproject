@@ -34,7 +34,7 @@
         "express": "^4.16.4",
         "js-cookie": "^2.2.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.4.19",
+        "mongoose": "^5.7.5",
         "mongoose-beautiful-unique-validation": "^7.1.1",
         "morgan": "^1.9.1",
         "next": "^8.0.3",
